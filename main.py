@@ -3,8 +3,8 @@ from cell import Cell
 from maze import Maze
 
 def main():
-    num_rows = 12
-    num_cols = 11
+    num_rows = 10
+    num_cols = 12
     margin = 50
     screen_width = 800
     screen_height = 600
@@ -35,7 +35,9 @@ def main():
     # cells[2].draw_move(cells[3], True)
 
     maze = Maze(margin, margin, num_rows, num_cols, cell_width, cell_height, win)
-
+    print("maze created")
+    if maze.solve():
+        print("maze solved")
     win.wait_for_close()
 
 if __name__ == "__main__":
