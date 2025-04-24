@@ -23,6 +23,8 @@ def main():
     cells[3].has_right_wall = False
     for cell in cells:
         cell.draw()
+    cells[0].draw_move(cells[1])
+    cells[2].draw_move(cells[3], True)
 
     win.wait_for_close()
 
