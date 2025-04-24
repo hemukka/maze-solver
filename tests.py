@@ -75,7 +75,6 @@ class Tests(unittest.TestCase):
         num_cols = 12
         num_rows = 11
         m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
-        m1._break_entrance_and_exit()
         self.assertEqual(
             m1._cells[0][0].has_top_wall,
             False,
@@ -92,6 +91,38 @@ class Tests(unittest.TestCase):
             m1._cells[num_cols - 1][num_rows - 1].has_right_wall,
             True,
         )
+
+    def test_maze_break_walls(self):
+        num_cols = 12
+        num_rows = 11
+        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
+
+        # check that all cells have 1 to 3 walls
+        # (4-way intersection would have 0 walls,
+        # but those don't seem to happen often)
+        total_walls = 0
+        for i in range(num_cols):
+            for j in range(num_rows):
+                walls = 0
+                if m1._cells[i][j].has_left_wall:
+                    walls += 1
+                if m1._cells[i][j].has_right_wall:
+                    walls += 1
+                if m1._cells[i][j].has_top_wall:
+                    walls += 1
+                if m1._cells[i][j].has_bottom_wall:
+                    walls += 1
+                self.assertIn(walls, (1,2,3))
+                total_walls += walls
+        # on average there should be around 1.5 to 2 walls per cell
+        walls_min = num_cols * num_rows * 1.5
+        walls_max = num_cols * num_rows * 2
+        self.assertTrue(walls_min <= total_walls <= walls_max)
+        # visited should be reset after breaking walls
+        for i in range(num_cols):
+            for j in range(num_rows):
+                self.assertFalse(m1._cells[i][j].visited)
+
 
 if __name__ == "__main__":
     unittest.main()
