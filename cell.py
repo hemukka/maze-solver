@@ -2,7 +2,7 @@ from graphics import Point, Line, Window
 from typing import Self
 
 class Cell():
-    def __init__(self, x1:int, x2:int, y1:int, y2:int, window:Window):
+    def __init__(self, x1:int, x2:int, y1:int, y2:int, window:Window=None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -14,6 +14,8 @@ class Cell():
         self._win = window
 
     def draw(self):
+        if self._win is None:
+            return
         if self.has_left_wall:
             self._win.draw_line(Line(Point(self._x1, self._y1),
                                      Point(self._x1, self._y2)))
@@ -28,6 +30,8 @@ class Cell():
                                     Point(self._x2, self._y2)))
     
     def draw_move(self, to_cell:Self, undo:bool=False):
+        if self._win is None:
+            return
         line_color = "red" 
         if undo:
             line_color = "grey"
